@@ -1,0 +1,5 @@
+*.swp
+*.gpg
+*.tar.gz
+*.sign
+buildroot-2018.02-rc1/

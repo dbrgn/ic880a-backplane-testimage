@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# Load kernel modules
+#
+
+echo "Loading kernel modules..."
+modprobe i2c-bcm2835
+modprobe i2c-dev

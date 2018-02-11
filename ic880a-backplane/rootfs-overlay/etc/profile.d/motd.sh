@@ -1,0 +1,5 @@
+echo ''
+echo '=*=*= Welcome to the ic880a backplane test image! =*=*='
+echo ''
+echo 'Simply use the `t` command to start the tests.'
+echo ''
