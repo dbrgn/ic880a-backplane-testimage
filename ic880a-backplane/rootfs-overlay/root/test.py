@@ -3,18 +3,13 @@ import RPi.GPIO as g
 import smbus
 
 import adc
-import sht21
+import shtcx
 
+# Pins
 LED_R = 36
 LED_Y = 38
 LED_B = 40
 BTN = 32
-
-# SHT21 config
-SHT21_DEV_REG = '/sys/bus/i2c/devices/i2c-1/new_device'
-SHT21_DEV_REG_PARAM = 'sht21 0x40'
-SHT21_DEV_TMP = '/sys/class/hwmon/hwmon0/temp1_input'
-SHT21_DEV_HUM = '/sys/class/hwmon/hwmon0/humidity1_input'
 
 # ADC I2C address and voltage dividers
 ADC_DEVICE_ADDRESS = 0x68
@@ -54,16 +49,13 @@ g.output(LED_B, g.LOW)
 
 if input('\nTest sensors? [y/n] ').strip() == 'y':
 
-    print('Initializing sensor...')
-    sht = sht21.SHT21(device_number=1)
+    print('\nInitializing SHTC3 sensor...')
+    shtcx.init()
 
-    print('Reading temperature... ', end='')
-    temperature = sht.read_temperature()
-    print(temperature)
-
-    print('Reading humidity... ', end='')
-    humidity = sht.read_humidity()
-    print(humidity)
+    print('Reading sensor values...')
+    (temp, humi) = shtcx.read()
+    print('  Temperature: {} C'.format(temp))
+    print('  Humidity: {} %RH'.format(humi))
 
     print('Initializing ADC...')
     config = adc.START_CONVERSION | adc.CONVERSION_MODE_ONESHOT \
@@ -83,8 +75,8 @@ if input('\nTest sensors? [y/n] ').strip() == 'y':
         total_r = ADC_DIVIDER_R1 + ADC_DIVIDER_R2 + ADC_DIVIDER_R3
         return v2 / (ADC_DIVIDER_R2 / total_r) * 2
 
-    print('ADC value is %d/%d' % (value, 2**16))
-    print('ADC voltage is %.4f V' % (get_voltage(value, 16) / 1000))
+    print('  Value is %d/%d' % (value, 2**16))
+    print('  Voltage is %.4f V' % (get_voltage(value, 16) / 1000))
 
 
 print('\n=== DONE! ===')
