@@ -27,6 +27,14 @@ g.setup(LED_Y, g.OUT)
 g.setup(LED_B, g.OUT)
 g.setup(BTN, g.IN, pull_up_down=g.PUD_UP)
 
+# Classification function
+def classify(val, minok, maxok, minwarn, maxwarn):
+    if minok < val < maxok:
+        return 'OK'
+    if minwarn < val < maxwarn:
+        return 'WARNING'
+    return 'ERROR'
+
 print('=== iC880A Backplane Test Program ===\n')
 
 print('Turning on LEDs...')
@@ -52,8 +60,10 @@ shtcx.init()
 
 print('Reading sensor values...')
 (temp, humi) = shtcx.read()
-print('  Temperature: {} C'.format(temp))
-print('  Humidity: {} %RH'.format(humi))
+prefix = classify(temp, 21, 28, 19, 30)
+print('  [%s] Temp: {} C'.format(prefix, temp))
+prefix = classify(humi, 30, 70, 20, 80)
+print('  [%s] Humi: {} %RH'.format(prefix, humi))
 
 print('Initializing ADC...')
 config = adc.START_CONVERSION | adc.CONVERSION_MODE_ONESHOT \
@@ -73,8 +83,9 @@ def get_voltage(measurement, bit):
     total_r = ADC_DIVIDER_R1 + ADC_DIVIDER_R2 + ADC_DIVIDER_R3
     return v2 / (ADC_DIVIDER_R2 / total_r) * 2
 
-print('  Value is %d/%d' % (value, 2**16))
-print('  Voltage is %.4f V' % (get_voltage(value, 16) / 1000))
+millivolt = get_voltage(value, 16)
+prefix = classify(millivolt, 498, 512, 495, 520)
+print('  [%s] Volt: %.4f V' % (prefix, millivolt / 1000))
 
 print('\n=== DONE! ===')
 
