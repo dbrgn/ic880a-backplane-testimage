@@ -1,3 +1,4 @@
+import os
 import time
 import RPi.GPIO as g
 import smbus
@@ -90,3 +91,6 @@ print('  [%s] Volt: %.4f V' % (prefix, millivolt / 1000))
 print('\n=== DONE! ===')
 
 g.cleanup()
+
+if input('\nShutdown? [Y/n] ').strip() in ['y', '']:
+    os.system('halt')
