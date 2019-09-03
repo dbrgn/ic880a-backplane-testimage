@@ -11,3 +11,8 @@ To build, type
 
 Then copy the resulting image to an SD card with `dd`. The size of the image
 should be around 160 MiB.
+
+To copy it to the target SD:
+
+    sudo dd if=buildroot-2019.02.4/output/images/sdcard.img of=/dev/YOURDEVICE bs=8M
+    sync
