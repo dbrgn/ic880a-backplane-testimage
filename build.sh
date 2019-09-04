@@ -6,8 +6,6 @@ DIR="buildroot-$VERSION"
 ARCHIVE="$DIR.tar.gz"
 URL="https://buildroot.org/downloads/$ARCHIVE"
 SHA1SUM=b7f3a717742e06ed6cb309e8e3d6925de1164808
-WIFI_SSID="setme"
-WIFI_PASS="setme"
 
 echo -e "Building iC880A Backplane Test Image\n"
 
@@ -35,10 +33,6 @@ cd ..
 
 echo "==> Copying board dir"
 cp -R --preserve=mode ic880a-backplane $DIR/board/
-
-echo "==> Patching config file"
-sed -i "s/{{SSID}}/$WIFI_SSID/" $DIR/board/ic880a-backplane/post-build.sh
-sed -i "s/{{PSK}}/$WIFI_PASS/" $DIR/board/ic880a-backplane/post-build.sh
 
 echo "==> Build!"
 cd $DIR

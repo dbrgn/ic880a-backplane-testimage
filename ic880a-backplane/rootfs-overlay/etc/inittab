@@ -26,7 +26,7 @@
 # Put a getty on the serial port
 #console::respawn:/sbin/getty -L  console 0 vt100 # GENERIC_SERIAL
 #tty1::respawn:/sbin/getty -L tty1 0 vt100 # HDMI console
-tty1::respawn:/bin/bash --login # HDMI console autologin
+tty1::respawn:/bin/login -f root # HDMI console autologin
 
 # Stuff to do for the 3-finger salute
 #::ctrlaltdel:/sbin/reboot

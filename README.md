@@ -10,7 +10,7 @@ To build, type
     ./build.sh
 
 Then copy the resulting image to an SD card with `dd`. The size of the image
-should be around 160 MiB.
+should be around 130 MiB.
 
 To copy it to the target SD:
 

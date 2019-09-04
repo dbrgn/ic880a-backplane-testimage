@@ -62,9 +62,9 @@ shtcx.init()
 print('Reading sensor values...')
 (temp, humi) = shtcx.read()
 prefix = classify(temp, 21, 28, 19, 30)
-print('  [%s] Temp: {} C'.format(prefix, temp))
+print('  [{}] Temp: {} C'.format(prefix, temp))
 prefix = classify(humi, 30, 70, 20, 80)
-print('  [%s] Humi: {} %RH'.format(prefix, humi))
+print('  [{}] Humi: {} %RH'.format(prefix, humi))
 
 print('Initializing ADC...')
 config = adc.START_CONVERSION | adc.CONVERSION_MODE_ONESHOT \
@@ -84,9 +84,9 @@ def get_voltage(measurement, bit):
     total_r = ADC_DIVIDER_R1 + ADC_DIVIDER_R2 + ADC_DIVIDER_R3
     return v2 / (ADC_DIVIDER_R2 / total_r) * 2
 
-millivolt = get_voltage(value, 16)
-prefix = classify(millivolt, 498, 512, 495, 520)
-print('  [%s] Volt: %.4f V' % (prefix, millivolt / 1000))
+volt = get_voltage(value, 16) / 1000
+prefix = classify(volt, 4.98, 5.12, 4.95, 5.2)
+print('  [{}] Volt: {:.4f} V'.format(prefix, volt))
 
 print('\n=== DONE! ===')
 
